@@ -15,3 +15,10 @@ RUN apk update && apk add --no-cache ca-certificates bash git openssh curl \
     && wget -q https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-linux-amd64 -O /usr/local/bin/kind \
     && chmod +x /usr/local/bin/kind
     
+WORKDIR /kind
+COPY kind-config.yaml .
+COPY setup_cluster.sh .
+RUN chmod +x setup_cluster.sh
+
+ENTRYPOINT ["sh", "-c"]
+CMD ["sh /kind/setup_cluster.sh"]
